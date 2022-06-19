@@ -19,7 +19,7 @@ phases:
   post_build:
     commands:
       - cd $CODEBUILD_SRC_DIR/src/Lambda && dotnet publish -c Release Lambda.csproj
-      - cd $$CODEBUILD_SRC_DIR/src/Lambda/bin/Release/netcoreapp3.1/publish
+      - cd $CODEBUILD_SRC_DIR/src/Lambda/bin/Release/netcoreapp3.1/publish
       - ls
       - zip -r $git_source.zip ./
       - ls
