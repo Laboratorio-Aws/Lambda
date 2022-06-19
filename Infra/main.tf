@@ -14,7 +14,7 @@ resource "aws_lambda_function" "cadastro_usuario" {
   runtime       = "dotnetcore3.1"
 }
 
-erraform {
+terraform {
   backend "s3" {
     bucket = "state-file-terraform-bucket"
     key    = "state/statefile-lambda"
