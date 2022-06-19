@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: latest
+  pre_build:
+    commands:
+      - echo $CODEBUILD_SOURCE_VERSION
+      - git_source=$(echo $CODEBUILD_SOURCE_VERSION | cut -d/ -f4)
+      - echo $git_source
+      - echo pre-build lambda
+      - cd $CODEBUILD_SRC_DIR/src/Lambda && dotnet restore Lambda.csproj
+  build:
+    commands: 
+      - echo build lambda
+      - cd $$CODEBUILD_SRC_DIR/src/Lambda && dotnet build -c Release
+      - echo Comando build aplicado
+  post_build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/src/Lambda && dotnet publish -c Release Lambda.csproj
+      - cd $$CODEBUILD_SRC_DIR/src/Lambda/bin/Release/netcoreapp3.1/publish
+      - ls
+      - zip -r $git_source.zip ./
+      - ls
+      - aws s3 cp $git_source.zip s3://$bucket_pipe/$key_pipe
+      - echo publish completed on
