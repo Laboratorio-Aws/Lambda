@@ -1,7 +1,9 @@
+using System.Linq.Expressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lambda.Domain;
 
 using Amazon.Lambda.Core;
 
@@ -19,9 +21,9 @@ namespace Lambda
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        public string FunctionHandler(string input, ILambdaContext context)
+        public string FunctionHandler(Input input, ILambdaContext context)
         {
-            return input?.ToUpper();
+            return input.Value.ToUpper();
         }
     }
 }
